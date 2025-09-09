@@ -21,7 +21,7 @@ def check_columns(df: pd.DataFrame, cols: list[str], name: str) -> None:
         raise ValueError(f"Missing columns in {name}: {', '.join(missing)}")
 
 def winsorize_z3(series: pd.Series) -> pd.Series:
-    """Clip a numeric Series to μ ± 3σ."""
+    """Clip a numeric series to standard deviations +/- 3."""
     if not pd.api.types.is_numeric_dtype(series):
         return series
     mu = series.mean(skipna=True)
@@ -32,7 +32,7 @@ def winsorize_z3(series: pd.Series) -> pd.Series:
     return series.clip(lower=lo, upper=hi)
 
 def zscore_df(df_num: pd.DataFrame) -> pd.DataFrame:
-    """Z-score all numeric columns, return a DataFrame with same index/columns."""
+    """Z-score all numeric columns, then return a DataFrame with same columns."""
     scaler = StandardScaler(with_mean=True, with_std=True)
     X = scaler.fit_transform(df_num.values)
     return pd.DataFrame(X, index=df_num.index, columns=df_num.columns)
@@ -40,7 +40,7 @@ def zscore_df(df_num: pd.DataFrame) -> pd.DataFrame:
 def percent_rank_dplyr(x: pd.Series) -> pd.Series:
     """
     dplyr::percent_rank equivalent:
-      (rank - 1) / (n - 1) * 100    (ties average; min=0, max=100)
+      (rank - 1) / (n - 1) * 100    
     """
     n = x.shape[0]
     if n <= 1:
@@ -71,7 +71,6 @@ def align_pc1_positive_with(series_scores: pd.Series, ref_feature: pd.Series) ->
 def reconstruction_error_pc1(X: pd.DataFrame, pca: PCA) -> float:
     """
     Reconstruct standardized X using only PC1 and compute MSE.
-    Xhat = s1 ⊗ v1    where s1 = X @ v1  and v1 is the first eigenvector
     """
     v1 = pca.components_[0, :]              # shape (n_features,)
     s1 = X.values @ v1                      # shape (n_samples,)
@@ -90,7 +89,10 @@ def run_pca_philly_pc1_nomap( # Using PC1 only in our case as it explains >70% o
     output_csv: str = "MergedPCA.csv",
     top_n: int = 10,
 ) -> dict:
-    # Summing white-collar industry columns into a single composite variable 
+    # -------------------------
+    # Summing white-collar occupations into a single variable "PercentAllIndustry"
+    # -------------------------
+    # Change names of variables when applying a new dataset (percent of population in XYZ occupation per tract)
     white_collar = [
         "PercentIndustry_wholesale.trade",
         "PercentIndustry_information",
@@ -99,7 +101,6 @@ def run_pca_philly_pc1_nomap( # Using PC1 only in our case as it explains >70% o
         "PercentIndustry_PublicAdmin",
     ]
     base_vars = ["MedianPropertyValue", "MedianIncome"]
-    # 2010 education column is already `PercentEducAttainment_BachelorOrHigher`
     edu_2010 = ["PercentEducAttainment_BachelorOrHigher"]
 
     need_2010 = [tract_col] + base_vars + white_collar + edu_2010
@@ -246,14 +247,14 @@ def run_pca_philly_pc1_nomap( # Using PC1 only in our case as it explains >70% o
     )
 
 if __name__ == "__main__":
-    # df2010 = pd.read_csv("2010Census_data.csv")
-    # df2021 = pd.read_csv("2021Census_data.csv")
+    # df2010 = pd.read_csv("2010Census_data.csv") # Available in data folder under main 
+    # df2021 = pd.read_csv("2021Census_data.csv") # Available in data folder under main 
 
     # result = run_pca_philly_pc1_nomap(
     #     df2010=df2010,
     #     df2021=df2021,
-    #     tract_col="TractNum",
-    #     output_csv="MergedPCA_no_neighborhoods.csv",
+    #     tract_col="TractNum", # Census tract column 
+    #     output_csv="MergedPCA.csv",
     #     top_n=10
     # )
 
