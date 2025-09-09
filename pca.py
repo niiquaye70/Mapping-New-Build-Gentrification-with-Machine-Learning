@@ -245,10 +245,6 @@ def run_pca_philly_pc1_nomap( # Using PC1 only in our case as it explains >70% o
         diagnostics=diagnostics,
     )
 
-
-# -------------------------
-# Run
-# -------------------------
 if __name__ == "__main__":
     # df2010 = pd.read_csv("2010Census_data.csv")
     # df2021 = pd.read_csv("2021Census_data.csv")
