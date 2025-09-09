@@ -14,7 +14,7 @@ It provides code, processed data, and reproducible workflows for the study of ne
 
 ## Getting Started
 ```bash
-git clone https://github.com/<your-org>/gentrification-newbuild-ml.git
+git clone https://github.com/urban-ai-lab/gentrification-newbuild-ml.git
 cd gentrification-newbuild-ml
 pip install -r requirements.txt
 ```
