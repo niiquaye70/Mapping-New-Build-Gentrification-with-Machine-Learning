@@ -11,8 +11,9 @@ try:
 except Exception:
     _HAS_FA = False
 
-
-# ------------------------- helpers -------------------------------------------
+# -------------------------
+# Helper functions 
+# -------------------------
 
 def check_columns(df: pd.DataFrame, cols: list[str], name: str) -> None:
     missing = [c for c in cols if c not in df.columns]
@@ -20,7 +21,7 @@ def check_columns(df: pd.DataFrame, cols: list[str], name: str) -> None:
         raise ValueError(f"Missing columns in {name}: {', '.join(missing)}")
 
 def winsorize_z3(series: pd.Series) -> pd.Series:
-    """Clip a numeric Series to μ ± 3σ (keeps NaNs as NaN)."""
+    """Clip a numeric Series to μ ± 3σ."""
     if not pd.api.types.is_numeric_dtype(series):
         return series
     mu = series.mean(skipna=True)
@@ -78,16 +79,18 @@ def reconstruction_error_pc1(X: pd.DataFrame, pca: PCA) -> float:
     return float(np.mean((X.values - Xhat) ** 2))
 
 
-# ------------------------- main ----------------------------------------------
+# -------------------------
+# Main functions
+# -------------------------
 
-def run_pca_philly_pc1_nomap(
+def run_pca_philly_pc1_nomap( # Using PC1 only in our case as it explains >70% of variance
     df2010: pd.DataFrame,
     df2021: pd.DataFrame,
     tract_col: str = "TractNum",
     output_csv: str = "MergedPCA.csv",
     top_n: int = 10,
 ) -> dict:
-    # --- 1) White-collar sum in both years ------------------------------------
+    # Summing white-collar industry columns into a single composite variable 
     white_collar = [
         "PercentIndustry_wholesale.trade",
         "PercentIndustry_information",
@@ -98,14 +101,6 @@ def run_pca_philly_pc1_nomap(
     base_vars = ["MedianPropertyValue", "MedianIncome"]
     # 2010 education column is already `PercentEducAttainment_BachelorOrHigher`
     edu_2010 = ["PercentEducAttainment_BachelorOrHigher"]
-
-    # 2021 may use 'PercentEduc' instead; if so, copy to the 2010-style name once
-    df21 = df2021.copy()
-    if "PercentEducAttainment_BachelorOrHigher" not in df21.columns:
-        if "PercentEduc" in df21.columns:
-            df21["PercentEducAttainment_BachelorOrHigher"] = df21["PercentEduc"]
-        else:
-            raise ValueError("df2021 must contain 'PercentEducAttainment_BachelorOrHigher' or 'PercentEduc'.")
 
     need_2010 = [tract_col] + base_vars + white_collar + edu_2010
     need_2021 = [tract_col] + base_vars + white_collar + edu_2010
@@ -118,15 +113,16 @@ def run_pca_philly_pc1_nomap(
 
     pca_vars = ["MedianPropertyValue", "MedianIncome", "PercentAllIndustry", "PercentEducAttainment_BachelorOrHigher"]
 
-    # --- 2) Keep PCA inputs and drop rows with NA in any PCA variable ----------
     dat2010 = df10[[tract_col] + pca_vars].dropna(subset=pca_vars).reset_index(drop=True)
     dat2021 = df21[[tract_col] + pca_vars].dropna(subset=pca_vars).reset_index(drop=True)
 
-    # --- 3) Winsorize (transformation) then z-score ------------------------------
+    # Winsorize transformation and then z-score standardization
     X2010 = dat2010[pca_vars].apply(winsorize_z3).pipe(zscore_df)
     X2021 = dat2021[pca_vars].apply(winsorize_z3).pipe(zscore_df)
 
-    # --- 4) PCA ---------------------------------------------------------------
+    # -------------------------
+    # PCA run for 2010 and 2021 years
+    # -------------------------
     p10 = pca_fit_scores(X2010)
     p21 = pca_fit_scores(X2021)
 
@@ -135,11 +131,11 @@ def run_pca_philly_pc1_nomap(
     print("2010 variance explained:", ", ".join(f"{v*100:.1f}%" for v in vr10))
     print("2021 variance explained:", ", ".join(f"{v*100:.1f}%" for v in vr21))
 
-    # Align PC1 so that higher PC1 ≈ higher income
+    # Align PC1 so that higher PC1 proportional to higher income
     pc1_2010 = align_pc1_positive_with(p10["scores"]["PC1"], X2010["MedianIncome"])
     pc1_2021 = align_pc1_positive_with(p21["scores"]["PC1"], X2021["MedianIncome"])
 
-    # --- 5) Percentile ranks + rank change ------------------------------------
+    # Create percentile ranks of PC1 and rank changes
     sc2010 = pd.DataFrame({
         tract_col: dat2010[tract_col].values,
         "PC1_2010": pc1_2010.values,
@@ -159,10 +155,10 @@ def run_pca_philly_pc1_nomap(
               .reset_index(drop=True)
     )
 
-    # Export
+    
     merged.to_csv(output_csv, index=False)
 
-    # Print top movers
+    # Print top movers of gentrification according to PCA
     top_inc = merged.nlargest(top_n, "rank_change")[[
         tract_col, "PC1_2010", "percent_rank_2010", "PC1_2021", "percent_rank_2021", "rank_change"
     ]]
@@ -175,7 +171,9 @@ def run_pca_philly_pc1_nomap(
     print("\nTop decreases (rank_change):")
     print(top_dec.to_string(index=False))
 
-    # --- 6) Diagnostics --------------------------------------------------------
+    # -------------------------
+    # Diagnostics for PCA performance
+    # -------------------------
     # Kaiser rule (eigenvalues > 1) on standardized inputs
     kaiser_2010 = int(np.sum(p10["eigvals"] > 1.0))
     kaiser_2021 = int(np.sum(p21["eigvals"] > 1.0))
@@ -248,13 +246,13 @@ def run_pca_philly_pc1_nomap(
     )
 
 
-# ------------------------- example usage --------------------------------------
+# -------------------------
+# Run
+# -------------------------
 if __name__ == "__main__":
-    # Load your two CSVs (or pass DataFrames you already have in memory)
     # df2010 = pd.read_csv("2010Census_data.csv")
     # df2021 = pd.read_csv("2021Census_data.csv")
 
-    # Example: if you already have `df2010` and `df2021` defined, just call:
     # result = run_pca_philly_pc1_nomap(
     #     df2010=df2010,
     #     df2021=df2021,
