@@ -1,5 +1,5 @@
 # Developing a machine learning model to map new-build gentrification: A mixed-methods approach
-This repository accompaniees the paper:
+This repository accompanies the paper:
 
 **"Developing a machine learning model to map new-build gentrification: A mixed-methods approach"**
 
