@@ -11,7 +11,14 @@ It provides code, processed data, and reproducible workflows for the study of ne
 - `src/` – Core Python modules (data, models, training, utils)
 - `data/` – Scripts and metadata for dataset creation (not raw imagery)
 - `docs/` – figures, supplementary materials
+### Principal Component Analysis
+Running a Principal Components Analysis (PCA) on 2010 and 2021 American Community Survey (ACS) 5-year estimates for Philadelphia census tracts. Builds a white-collar share (variable name: PercentAllIndustry) for both years based on occupational census variables. Winsorizes (+/- 3 standard deviations), standardizes the data, and then runs the PCA. 
 
+PCA incorporates variables of median income, median housing value, educational attainment at a bachelor's degree and higher, and white-collar occupational share. Select variables pulled from data files 2010Census_data.csv and 2021Census_data.csv, available in GitHub data repository. 
+
+Followed by diagnostics for PCA performance (KMO/Bartlett). 
+
+*Note*: Code is adapted to utilize the top principal component (PC1), but tweak code to create a composite of multiple principal components if the variance is poorly explained by PC1 alone.
 ## Getting Started
 ```bash
 git clone https://github.com/urban-ai-lab/gentrification-newbuild-ml.git
