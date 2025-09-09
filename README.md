@@ -7,7 +7,7 @@ It provides code, processed data, and reproducible workflows for the study of ne
 ![Model Architecture](docs/summary.png)
 
 ## 📂 Repository Structure
-- `notebooks/` – PCA analysis, focus group protocol integration, data preparation, model training, validation
+- `notebooks/` – PCA analysis, focus group protocol integration, data preparation, model validation
 - `src/` – Core Python modules (data, models, training, utils)
 - `data/` – Scripts and metadata for dataset creation (not raw imagery)
 - `docs/` – figures, supplementary materials
