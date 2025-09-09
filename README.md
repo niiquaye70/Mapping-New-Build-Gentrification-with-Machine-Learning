@@ -6,7 +6,7 @@ This repository accompaniees the paper:
 It provides code, processed data, and reproducible workflows for the study of new-build gentrification in Philadelphia using Street View Imagery, permit data, and community-informed protocols.
 
 
-## Contents
+## 📂 Repository Structure
 - `notebooks/` – PCA analysis, focus group protocol integration, data preparation, model training, validation
 - `src/` – Core Python modules (data, models, training, utils)
 - `data/` – Scripts and metadata for dataset creation (not raw imagery)
