@@ -16,3 +16,11 @@ It provides code, processed data, and reproducible workflows for the study of ne
 git clone https://github.com/<your-org>/gentrification-newbuild-ml.git
 cd gentrification-newbuild-ml
 pip install -r requirements.txt
+```
+## Starting traning
+```bash
+python run_train.py
+```
+## Evaluation
+```bash
+python run_eval.py
