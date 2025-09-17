@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```bash
 python run_train.py
 
-#This will, split your dataset into data/splits/train_set.csv and data/splits/val_set.csv and train the Siamese ResNet-50 model.
+#M This will, split your dataset into data/splits/train_set.csv and data/splits/val_set.csv and train the Siamese ResNet-50 model.
 ```
 ## Evaluation
 ```bash
@@ -37,7 +37,7 @@ python run_eval.py
 ```
 ###
 📁 Data Notes
-Raw Street View Imagery is not stored in this repo (too large, licensed).
+Raw Street View Imagery is not stored in this repo (too large, licensed). specify image directoy in both training and testing in the **train.py** and **test.py** ake sure you specify image directory in the run_train.py.
 
 pairs.csv contains processed metadata for building before/after pairs.
 
