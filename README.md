@@ -37,7 +37,7 @@ python run_eval.py
 ```
 ###
 📁 Data Notes
-Raw Street View Imagery is not stored in this repo (too large, licensed). specify image directoy in both training and testing in the **train.py** and **test.py** ake sure you specify image directory in the run_train.py.
+Raw Street View Imagery is not stored in this repo (too large, licensed). specify image directoy in both training and testing in the **run_train.py** and **run_eval.py** ake sure you specify image directory in the run_train.py.
 
 pairs.csv contains processed metadata for building before/after pairs.
 
