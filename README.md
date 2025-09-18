@@ -36,7 +36,7 @@ conda activate gentrisp
 run_train.py as a notebook
 # you can choose to run also as a notebook
 
-#M This will, split your dataset into data/splits/train_set.csv and data/splits/val_set.csv and train the Siamese ResNet-50 model.
+# This will, split your dataset into data/splits/train_set.csv and data/splits/val_set.csv and train the Siamese ResNet-50 model.
 ```
 ## Evaluation
 ```bash
