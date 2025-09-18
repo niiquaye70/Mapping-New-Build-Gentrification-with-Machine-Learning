@@ -21,8 +21,8 @@ Followed by diagnostics for PCA performance (KMO/Bartlett).
 *Note*: Code is adapted to utilize the top principal component (PC1), but tweak code to create a composite of multiple principal components if the variance is poorly explained by PC1 alone.
 ## Getting Started
 ```bash
-git clone https://github.com/urban-ai-lab/gentrification-newbuild-ml.git
-cd gentrification-newbuild-ml
+git clone https://github.com/niiquaye70/Mapping-New-Build-Gentrification-with-Machine-Learning.git
+cd cd Mapping-New-Build-Gentrification-with-Machine-Learning
 pip install -r requirements.txt
 ```
 ## Run training with:
