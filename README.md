@@ -23,17 +23,25 @@ Followed by diagnostics for PCA performance (KMO/Bartlett).
 ```bash
 git clone https://github.com/niiquaye70/Mapping-New-Build-Gentrification-with-Machine-Learning.git
 cd cd Mapping-New-Build-Gentrification-with-Machine-Learning
-pip install -r requirements.txt
+```
+## Environment Setup
+
+To reproduce the environment:
+```bash
+conda env create -f environment.yml
+conda activate gentrisp
 ```
 ## Run training with:
 ```bash
-python run_train.py
+run_train.py as a notebook
+# you can choose to run also as a notebook
 
 #M This will, split your dataset into data/splits/train_set.csv and data/splits/val_set.csv and train the Siamese ResNet-50 model.
 ```
 ## Evaluation
 ```bash
-python run_eval.py
+run run_eval.py
+# you can choose to run also as a notebook
 ```
 ###
 📁 Data Notes
