@@ -1,0 +1,18 @@
+name: gentrisp
+channels:
+  - defaults
+dependencies:
+  - pandas
+  - pillow
+  - torchvision
+  - torchaudio
+  - pytorch
+  - cpuonly
+  - matplotlib
+  - scikit-learn
+  - seaborn
+  - tensorboard
+  - transformers
+  - datasets
+  - notebook
+prefix: C:\Users\tut45333\.conda\envs\gentrisp
