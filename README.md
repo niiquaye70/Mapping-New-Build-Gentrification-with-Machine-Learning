@@ -4,7 +4,7 @@ This repository accompanies the paper:
 **"Developing a machine learning model to map new-build gentrification: A mixed-methods approach"**
 
 It provides code, processed data, and reproducible workflows for the study of new-build gentrification in Philadelphia using Street View Imagery, permit data, and community-informed protocols.
-![Model Architecture](docs/fig1.png)
+![Model Architecture](docs/Fig1.png)
 
 ## 📂 Repository Structure
 - `notebooks/` – PCA analysis, focus group protocol integration, data preparation, model validation
