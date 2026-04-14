@@ -2,7 +2,7 @@
 This repository accompanies the paper:
 
 **"Developing a machine learning model to map new-build gentrification: A mixed-methods approach"**
-
+[https://doi.org/10.1371/journal.pone.0341844](https://doi.org/10.1371/journal.pone.0341844)
 It provides code, processed data, and reproducible workflows for the study of new-build gentrification in Philadelphia using Street View Imagery, permit data, and community-informed protocols.
 ![Model Visualization](docs/summary.png)
 
